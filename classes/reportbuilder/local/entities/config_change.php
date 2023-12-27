@@ -82,68 +82,79 @@ class config_change extends base {
 
         // Time modified column.
         $columns[] = (new column(
-            'timemodified',
-            new lang_string('timemodified', 'report_adv_configlog'),
-            $this->get_entity_name()
+                'timemodified',
+                new lang_string('timemodified', 'report_adv_configlog'),
+                $this->get_entity_name()
         ))
-            ->add_joins($this->get_joins())
-            ->set_type(column::TYPE_TIMESTAMP)
-            ->add_fields("{$tablealias}.timemodified")
-            ->set_is_sortable(true)
-            ->add_callback([format::class, 'userdate']);
+                ->add_joins($this->get_joins())
+                ->set_type(column::TYPE_TIMESTAMP)
+                ->add_fields("{$tablealias}.timemodified")
+                ->set_is_sortable(true)
+                ->add_callback([format::class, 'userdate']);
 
         // Plugin column.
         $columns[] = (new column(
-            'plugin',
-            new lang_string('plugin', 'report_adv_configlog'),
-            $this->get_entity_name()
+                'plugin',
+                new lang_string('plugin', 'report_adv_configlog'),
+                $this->get_entity_name()
         ))
-            ->add_joins($this->get_joins())
-            ->set_type(column::TYPE_TEXT)
-            ->add_field("{$tablealias}.plugin")
-            ->set_is_sortable(true)
-            ->add_callback(static function(?string $plugin): string {
-                return $plugin ?? 'core';
-            });
+                ->add_joins($this->get_joins())
+                ->set_type(column::TYPE_TEXT)
+                ->add_field("{$tablealias}.plugin")
+                ->set_is_sortable(true)
+                ->add_callback(static function(?string $plugin): string {
+                    return $plugin ?? 'core';
+                });
 
         // Setting column.
         $columns[] = (new column(
-            'setting',
-            new lang_string('setting', 'report_adv_configlog'),
-            $this->get_entity_name()
+                'setting',
+                new lang_string('setting', 'report_adv_configlog'),
+                $this->get_entity_name()
         ))
-            ->add_joins($this->get_joins())
-            ->set_type(column::TYPE_TEXT)
-            ->add_field("{$tablealias}.name")
-            ->set_is_sortable(true);
+                ->add_joins($this->get_joins())
+                ->set_type(column::TYPE_TEXT)
+                ->add_field("{$tablealias}.name")
+                ->set_is_sortable(true);
 
         // New value column.
         $columns[] = (new column(
-            'newvalue',
-            new lang_string('valuenew', 'report_adv_configlog'),
-            $this->get_entity_name()
+                'newvalue',
+                new lang_string('valuenew', 'report_adv_configlog'),
+                $this->get_entity_name()
         ))
-            ->add_joins($this->get_joins())
-            ->set_type(column::TYPE_TEXT)
-            ->add_field("{$tablealias}.value")
-            ->set_is_sortable(true)
-            ->add_callback(static function(?string $value): string {
-                return format_text($value, FORMAT_PLAIN);
-            });
+                ->add_joins($this->get_joins())
+                ->set_type(column::TYPE_TEXT)
+                ->add_field("{$tablealias}.value")
+                ->set_is_sortable(true)
+                ->add_callback(static function(?string $value): string {
+                    return format_text($value, FORMAT_PLAIN);
+                });
 
         // Old value column.
         $columns[] = (new column(
-            'oldvalue',
-            new lang_string('valueold', 'report_adv_configlog'),
-            $this->get_entity_name()
+                'oldvalue',
+                new lang_string('valueold', 'report_adv_configlog'),
+                $this->get_entity_name()
         ))
-            ->add_joins($this->get_joins())
-            ->set_type(column::TYPE_TEXT)
-            ->add_field("{$tablealias}.oldvalue")
-            ->set_is_sortable(true)
-            ->add_callback(static function(?string $oldvalue): string {
-                return format_text($oldvalue, FORMAT_PLAIN);
-            });
+                ->add_joins($this->get_joins())
+                ->set_type(column::TYPE_TEXT)
+                ->add_field("{$tablealias}.oldvalue")
+                ->set_is_sortable(true)
+                ->add_callback(static function(?string $oldvalue): string {
+                    return format_text($oldvalue, FORMAT_PLAIN);
+                });
+
+        // Notes column.
+        $columns[] = (new column(
+                'notes',
+                new lang_string('notes', 'report_adv_configlog'),
+                $this->get_entity_name()
+        ))
+                ->add_joins($this->get_joins())
+                ->set_type(column::TYPE_LONGTEXT)
+                ->add_field("{$tablealias}.oldvalue")
+                ->set_is_sortable(true);
 
         return $columns;
     }
@@ -158,49 +169,49 @@ class config_change extends base {
 
         // Time modified filter.
         $filters[] = (new filter(
-            date::class,
-            'timemodified',
-            new lang_string('timemodified', 'report_adv_configlog'),
-            $this->get_entity_name(),
-            "{$tablealias}.timemodified"
+                date::class,
+                'timemodified',
+                new lang_string('timemodified', 'report_adv_configlog'),
+                $this->get_entity_name(),
+                "{$tablealias}.timemodified"
         ))
-            ->add_joins($this->get_joins())
-            ->set_limited_operators([
-                date::DATE_ANY,
-                date::DATE_RANGE,
-                date::DATE_PREVIOUS,
-                date::DATE_CURRENT,
-            ]);
+                ->add_joins($this->get_joins())
+                ->set_limited_operators([
+                        date::DATE_ANY,
+                        date::DATE_RANGE,
+                        date::DATE_PREVIOUS,
+                        date::DATE_CURRENT,
+                ]);
 
         // Setting filter.
         $filters[] = (new filter(
-            text::class,
-            'setting',
-            new lang_string('setting', 'report_adv_configlog'),
-            $this->get_entity_name(),
-            "{$tablealias}.name"
+                text::class,
+                'setting',
+                new lang_string('setting', 'report_adv_configlog'),
+                $this->get_entity_name(),
+                "{$tablealias}.name"
         ))
-            ->add_joins($this->get_joins());
+                ->add_joins($this->get_joins());
 
         // New value filter.
         $filters[] = (new filter(
-            text::class,
-            'value',
-            new lang_string('valuenew', 'report_adv_configlog'),
-            $this->get_entity_name(),
-            "{$tablealias}.value"
+                text::class,
+                'value',
+                new lang_string('valuenew', 'report_adv_configlog'),
+                $this->get_entity_name(),
+                "{$tablealias}.value"
         ))
-            ->add_joins($this->get_joins());
+                ->add_joins($this->get_joins());
 
         // Old value filter.
         $filters[] = (new filter(
-            text::class,
-            'oldvalue',
-            new lang_string('valueold', 'report_adv_configlog'),
-            $this->get_entity_name(),
-            "{$tablealias}.oldvalue"
+                text::class,
+                'oldvalue',
+                new lang_string('valueold', 'report_adv_configlog'),
+                $this->get_entity_name(),
+                "{$tablealias}.oldvalue"
         ))
-            ->add_joins($this->get_joins());
+                ->add_joins($this->get_joins());
 
         return $filters;
     }

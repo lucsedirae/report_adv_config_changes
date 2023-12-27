@@ -40,3 +40,4 @@ $string['value_help'] = 'Search by new or original value of the configuration';
 $string['valuenew'] = 'New value';
 $string['valueold'] = 'Original value';
 $string['privacy:metadata'] = 'The Advanced config changes plugin does not store any personal data.';
+$string['notes'] = 'Notes';

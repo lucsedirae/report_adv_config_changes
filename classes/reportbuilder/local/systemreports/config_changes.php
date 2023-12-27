@@ -82,6 +82,7 @@ class config_changes extends system_report {
             'config_change:setting',
             'config_change:newvalue',
             'config_change:oldvalue',
+            'config_change:notes',
         ];
 
         $this->add_columns_from_entities($columns);
