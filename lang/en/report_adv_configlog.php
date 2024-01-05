@@ -28,6 +28,7 @@ $string['adv_configlog'] = 'Advanced config changes';
 $string['datefrom'] = 'Date from';
 $string['dateto'] = 'Date to';
 $string['entityconfigchange'] = 'Config change';
+$string['entityconfignote'] = 'Config note';
 $string['plugin'] = 'Plugin';
 $string['pluginname'] = 'Config changes';
 $string['setting'] = 'Setting';
