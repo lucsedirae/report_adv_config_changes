@@ -41,7 +41,10 @@ class config_change extends base {
      * @return array
      */
     protected function get_default_table_aliases(): array {
-        return ['config_log' => 'cl'];
+        return [
+                'config_log' => 'cl',
+                'advconfiglog' => 'acl',
+        ];
     }
 
     /**
@@ -79,6 +82,7 @@ class config_change extends base {
      */
     protected function get_all_columns(): array {
         $tablealias = $this->get_table_alias('config_log');
+        $notestable = $this->get_table_alias('advconfiglog');
 
         // Time modified column.
         $columns[] = (new column(
@@ -144,17 +148,6 @@ class config_change extends base {
                 ->add_callback(static function(?string $oldvalue): string {
                     return format_text($oldvalue, FORMAT_PLAIN);
                 });
-
-        // Notes column.
-        $columns[] = (new column(
-                'notes',
-                new lang_string('notes', 'report_adv_configlog'),
-                $this->get_entity_name()
-        ))
-                ->add_joins($this->get_joins())
-                ->set_type(column::TYPE_LONGTEXT)
-                ->add_field("{$tablealias}.oldvalue")
-                ->set_is_sortable(true);
 
         return $columns;
     }

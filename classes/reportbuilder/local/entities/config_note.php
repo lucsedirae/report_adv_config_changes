@@ -41,7 +41,7 @@ class config_note extends base {
      * @return array
      */
     protected function get_default_table_aliases(): array {
-        return ['report_adv_configlog' => 'acl'];
+        return ['advconfiglog' => 'acl'];
     }
 
     /**
@@ -59,18 +59,19 @@ class config_note extends base {
      * @return base
      */
     public function initialise(): base {
-        $columns = $this->get_all_columns();
-        foreach ($columns as $column) {
-            $this->add_column($column);
-        }
+        $tablealias = $this->get_table_alias('advconfiglog');
 
-        $filters = $this->get_all_filters();
-        foreach ($filters as $filter) {
-            $this->add_filter($filter);
-        }
+        $notescolumn = new column(
+                'notes',
+                new lang_string('notes', 'report_adv_configlog'),
+                $this->get_entity_name()
+        );
+        $notescolumn->add_joins($this->get_joins());
+        $notescolumn->set_type(column::TYPE_LONGTEXT);
+        $notescolumn->add_field("{$tablealias}.notes");
+        $notescolumn->set_is_sortable(true);
 
+        $this->add_column($notescolumn);
         return $this;
     }
-
-    
 }
