@@ -20,6 +20,7 @@ use context_system;
 use report_adv_configlog\reportbuilder\local\entities\config_change;
 use core_reportbuilder\system_report;
 use core_reportbuilder\local\entities\user;
+use report_adv_configlog\reportbuilder\local\entities\config_note;
 use stdClass;
 
 /**
@@ -44,11 +45,17 @@ class config_changes extends system_report {
         $this->set_main_table('config_log', $entitymainalias);
         $this->add_entity($entitymain);
 
+        $entitynotes = new config_note();
+        $notestablealias = $entitynotes->get_table_alias('advconfiglog');
+        $this->add_entity($entitynotes->add_join(
+                "LEFT JOIN {advconfiglog} {$notestablealias} ON {$notestablealias}.configid = {$entitymainalias}.id"
+        ));
+
         // We can join the "user" entity to our "main" entity using standard SQL JOIN.
         $entityuser = new user();
         $entityuseralias = $entityuser->get_table_alias('user');
         $this->add_entity($entityuser
-            ->add_join("LEFT JOIN {user} {$entityuseralias} ON {$entityuseralias}.id = {$entitymainalias}.userid")
+                ->add_join("LEFT JOIN {user} {$entityuseralias} ON {$entityuseralias}.id = {$entitymainalias}.userid")
         );
 
         // Now we can call our helper methods to add the content we want to include in the report.
@@ -76,13 +83,13 @@ class config_changes extends system_report {
      */
     protected function add_columns(): void {
         $columns = [
-            'config_change:timemodified',
-            'user:fullnamewithlink',
-            'config_change:plugin',
-            'config_change:setting',
-            'config_change:newvalue',
-            'config_change:oldvalue',
-            'config_change:notes',
+                'config_change:timemodified',
+                'user:fullnamewithlink',
+                'config_change:plugin',
+                'config_change:setting',
+                'config_change:newvalue',
+                'config_change:oldvalue',
+                'config_note:notes',
         ];
 
         $this->add_columns_from_entities($columns);
@@ -106,11 +113,11 @@ class config_changes extends system_report {
      */
     protected function add_filters(): void {
         $filters = [
-            'config_change:setting',
-            'config_change:value',
-            'config_change:oldvalue',
-            'user:fullname',
-            'config_change:timemodified',
+                'config_change:setting',
+                'config_change:value',
+                'config_change:oldvalue',
+                'user:fullname',
+                'config_change:timemodified',
         ];
 
         $this->add_filters_from_entities($filters);
