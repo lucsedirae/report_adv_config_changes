@@ -26,8 +26,6 @@
 
 namespace report_adv_configlog\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for report_adv_configlog implementing null_provider.
  *
