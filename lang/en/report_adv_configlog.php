@@ -42,3 +42,4 @@ $string['valuenew'] = 'New value';
 $string['valueold'] = 'Original value';
 $string['privacy:metadata'] = 'The Advanced config changes plugin does not store any personal data.';
 $string['notes'] = 'Notes';
+$string['notesfield'] = 'Notes';

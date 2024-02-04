@@ -26,16 +26,24 @@
 
 use core_reportbuilder\system_report_factory;
 use core_reportbuilder\local\filters\text;
+use report_adv_configlog\form\notes_form;
 use report_adv_configlog\reportbuilder\local\systemreports\config_changes;
 
-require(__DIR__.'/../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
+global $PAGE;
+
+require(__DIR__ . '/../../config.php');
+require_once($CFG->libdir . '/adminlib.php');
 
 // Allow searching by setting when providing parameter directly.
 $search = optional_param('search', '', PARAM_TEXT);
 
 admin_externalpage_setup('reportadv_configlog', '', ['search' => $search], '', ['pagelayout' => 'report']);
+$pageurl = new moodle_url('/report/adv_configlog/index.php');
 
+// Form construction.
+$mform = new notes_form($pageurl);
+
+// Output
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('adv_configlog', 'report_adv_configlog'));
 
@@ -43,11 +51,17 @@ echo $OUTPUT->heading(get_string('adv_configlog', 'report_adv_configlog'));
 $report = system_report_factory::create(config_changes::class, context_system::instance());
 if (!empty($search)) {
     $report->set_filter_values([
-        'config_change:setting_operator' => text::IS_EQUAL_TO,
-        'config_change:setting_value' => $search,
+            'config_change:setting_operator' => text::IS_EQUAL_TO,
+            'config_change:setting_value' => $search,
     ]);
 }
 
 echo $report->output();
 
 echo $OUTPUT->footer();
+
+$PAGE->requires->js_call_amd(
+        'report/adv_configlog/notes_crud',
+        'initForm',
+        ['[data-action=openform]', notes_form::class]
+);
