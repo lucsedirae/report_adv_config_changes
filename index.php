@@ -43,6 +43,12 @@ $pageurl = new moodle_url('/report/adv_configlog/index.php');
 // Form construction.
 $mform = new notes_form($pageurl);
 
+$PAGE->requires->js_call_amd(
+        'report_adv_configlog/notes_crud',
+        'initForm',
+        ['[data-action=openform]', notes_form::class]
+);
+
 // Output
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('adv_configlog', 'report_adv_configlog'));
@@ -60,8 +66,3 @@ echo $report->output();
 
 echo $OUTPUT->footer();
 
-$PAGE->requires->js_call_amd(
-        'report/adv_configlog/notes_crud',
-        'initForm',
-        ['[data-action=openform]', notes_form::class]
-);

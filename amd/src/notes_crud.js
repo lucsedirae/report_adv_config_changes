@@ -28,6 +28,8 @@ import {get_string as getString} from 'core/str';
 export const initForm = (linkSelector, formClass) => {
     let buttons = document.querySelectorAll(linkSelector);
 
+    window.console.log(buttons);
+
     buttons.forEach((button) => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
@@ -37,7 +39,7 @@ export const initForm = (linkSelector, formClass) => {
                 formClass,
                 args: limitId ? {limitid: limitId} : {},
                 modalConfig: {title: limitId ?
-                        getString('editlimit', 'report_adv_config') : getString('createlimit', 'report_adv_config')},
+                        getString('editnotes', 'report_adv_configlog') : getString('createnotes', 'report_adv_config')},
                 returnFocus: e.currentTarget
             });
             // If necessary extend functionality by overriding class methods, for example:
@@ -72,5 +74,4 @@ export const initForm = (linkSelector, formClass) => {
             form.show();
         });
     });
-
 };
