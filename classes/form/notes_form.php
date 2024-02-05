@@ -27,6 +27,7 @@
 namespace report_adv_configlog\form;
 
 use lang_string;
+use report_adv_configlog\local\data\confignote;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -36,6 +37,7 @@ use context;
 use context_system;
 use core_form\dynamic_form;
 use moodle_url;
+use report_adv_configlog\reportbuilder\local\entities\config_note;
 
 /**
  * Form class for limits.
@@ -73,8 +75,10 @@ class notes_form extends dynamic_form {
         if (!empty($formdata->id)) {
             $id = $formdata->id;
         }
-        $limit = new limit($id, $formdata);
-        $limit->save();
+
+        $confignote = new confignote($id, $formdata);
+        $confignote->save();
+
         return [
                 'message' => 'notessavesuccess',
                 'messagetype' => 'success',
@@ -106,6 +110,9 @@ class notes_form extends dynamic_form {
         // Hidden Id.
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
+
+        $mform->addElement('hidden', 'configid');
+        $mform->setType('configid', PARAM_INT);
 
         $mform->addElement('textarea', 'notes', new lang_string('notes', 'report_adv_configlog'),
                 'wrap="virtual" rows="20" cols="50"');

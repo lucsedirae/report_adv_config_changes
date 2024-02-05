@@ -16,7 +16,6 @@
 /**
  * report_adv_config monitors cohort concurrency and limits access based on restrictions.
  *
- * @ report_adv_configlog
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,17 +27,18 @@ import {get_string as getString} from 'core/str';
 export const initForm = (linkSelector, formClass) => {
     let buttons = document.querySelectorAll(linkSelector);
 
-    window.console.log(buttons);
-
     buttons.forEach((button) => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            let limitId = button.dataset.id;
-            Log.debug(`Limit ID: ${limitId}`);
+
+            Log.debug(`Buttons: ${button.dataset.id}`);
+            let configId = button.dataset.id;
+
+            Log.debug(`Config ID: ${configId}`);
             const form = new ModalForm({
                 formClass,
-                args: limitId ? {limitid: limitId} : {},
-                modalConfig: {title: limitId ?
+                args: configId ? {configid: configId} : {},
+                modalConfig: {title: configId ?
                         getString('editnotes', 'report_adv_configlog') : getString('createnotes', 'report_adv_config')},
                 returnFocus: e.currentTarget
             });

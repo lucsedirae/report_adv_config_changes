@@ -19,11 +19,9 @@ namespace report_adv_configlog\reportbuilder\local\entities;
 use lang_string;
 use moodle_url;
 use core_reportbuilder\local\entities\base;
-use core_reportbuilder\local\helpers\format;
 use core_reportbuilder\local\report\column;
-use core_reportbuilder\local\report\filter;
-use core_reportbuilder\local\filters\date;
-use core_reportbuilder\local\filters\text;
+use report_adv_configlog\local\data\notes;
+
 
 class config_note extends base {
 
@@ -80,6 +78,7 @@ class config_note extends base {
             $deleteurl = new moodle_url('/local/ejectionseat_limit/limits.php', [
                     'action' => 'delete',
             ]);
+
             $output = "<div class='adv_configlog_notes'>";
             $output .= format_text($notes, FORMAT_PLAIN);
             $output .= "<a role='button' class='btn btn-primary m-1' href='#' data-action='openform' data-id='{{$id}}'>";

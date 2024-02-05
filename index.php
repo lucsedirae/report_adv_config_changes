@@ -65,4 +65,3 @@ if (!empty($search)) {
 echo $report->output();
 
 echo $OUTPUT->footer();
-
