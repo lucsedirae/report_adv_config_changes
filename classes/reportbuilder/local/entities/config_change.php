@@ -82,7 +82,6 @@ class config_change extends base {
      */
     protected function get_all_columns(): array {
         $tablealias = $this->get_table_alias('config_log');
-        $notestable = $this->get_table_alias('advconfiglog');
 
         // Time modified column.
         $columns[] = (new column(

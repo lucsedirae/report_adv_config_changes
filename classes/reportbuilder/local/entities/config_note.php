@@ -22,18 +22,17 @@ use core_reportbuilder\local\entities\base;
 use core_reportbuilder\local\report\column;
 use report_adv_configlog\local\data\notes;
 
-
 class config_note extends base {
 
-/**
- * Config note entity class implementation
- * This plugin is a fork of the core report_configlog report.
- *
- * @package   report
- * @subplugin adv_configlog
- * @copyright 2023 Jon Deavers jondeavers@gmail.com
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+    /**
+     * Config note entity class implementation
+     * This plugin is a fork of the core report_configlog report.
+     *
+     * @package   report
+     * @subplugin adv_configlog
+     * @copyright 2023 Jon Deavers jondeavers@gmail.com
+     * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+     */
 
     /**
      * Database tables that this entity uses and their default aliases
@@ -41,7 +40,9 @@ class config_note extends base {
      * @return array
      */
     protected function get_default_table_aliases(): array {
-        return ['advconfiglog' => 'acl'];
+        return ['advconfiglog' => 'acl',
+                'config_log' => 'cfgl',
+        ];
     }
 
     /**
@@ -60,6 +61,7 @@ class config_note extends base {
      */
     public function initialise(): base {
         $tablealias = $this->get_table_alias('advconfiglog');
+        $configtablealias = $this->get_table_alias('config_log');
 
         $notescolumn = new column(
                 'notes',
@@ -67,28 +69,23 @@ class config_note extends base {
                 $this->get_entity_name()
         );
 
-
         $notescolumn->add_joins($this->get_joins());
-        $notescolumn->set_type(column::TYPE_LONGTEXT);
         $notescolumn->add_field("{$tablealias}.notes");
         $notescolumn->add_field("{$tablealias}.id");
+        $notescolumn->add_field("{$tablealias}.configid");
+        $notescolumn->set_type(column::TYPE_LONGTEXT);
         $notescolumn->set_is_sortable(true);
         $notescolumn->add_callback(static function(?string $notes, $row): string {
             $id = $row->id;
-            $deleteurl = new moodle_url('/local/ejectionseat_limit/limits.php', [
+            $deleteurl = new moodle_url('/report/adv_configlog/index.php', [
                     'action' => 'delete',
             ]);
 
             $output = "<div class='adv_configlog_notes'>";
             $output .= format_text($notes, FORMAT_PLAIN);
-            $output .= "<a role='button' class='btn btn-primary m-1' href='#' data-action='openform' data-id='{{$id}}'>";
-            $output .= new lang_string('edit');
-            $output .= " </a > ";
-            $output .= "<a role = 'button' class='btn btn-danger m-1' href = '{$deleteurl}&id={$id}' > ";
-            $output .= new lang_string('delete');
-            $output .= "</a > ";
             $output .= "</div > ";
             return $output;
+            //return format_text($notes, FORMAT_PLAIN);
         });
 
         $this->add_column($notescolumn);
