@@ -64,7 +64,9 @@ class config_changes extends system_report {
         $this->add_filters();
 
         // Add actions for notes.
-        $url = new \moodle_url('/report/adv_configlog/index.php');
+        $this->add_base_fields("{$entitymainalias}.id");
+
+        $url = new \moodle_url('/report/adv_configlog/edit.php', ['configid' => ':id', 'edit' => 1]);
         $icon = new \pix_icon('t/edit', get_string('edit'));
         $action = new action($url, $icon);
         $this->add_action($action);

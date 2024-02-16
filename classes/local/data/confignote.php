@@ -26,8 +26,6 @@
 
 namespace report_adv_configlog\local\data;
 
-defined('MOODLE_INTERNAL') || die();
-
 use lang_string;
 
 class confignote extends base {

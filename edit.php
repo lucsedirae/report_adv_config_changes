@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Config changes report
+ * Config changes report edit note form
  * This plugin is a fork of the core report_configlog report.
  *
  * @package   report
@@ -24,39 +24,21 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use core_reportbuilder\system_report_factory;
-use core_reportbuilder\local\filters\text;
-use report_adv_configlog\form\notes_form;
-use report_adv_configlog\reportbuilder\local\systemreports\config_changes;
-
 require(__DIR__ . '/../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
 global $PAGE, $OUTPUT;
 
-// Allow searching by setting when providing parameter directly.
-$search = optional_param('search', '', PARAM_TEXT);
 $configid = optional_param('configid', '', PARAM_INT);
 
-admin_externalpage_setup('reportadv_configlog', '', ['search' => $search], '', ['pagelayout' => 'report']);
-$pageurl = new moodle_url('/report/adv_configlog/index.php');
-
-// Form construction.
-$mform = new notes_form($pageurl);
+$parenturl = new moodle_url('/report/adv_configlog/index.php');
+$pageurl = new moodle_url('/report/adv_configlog/edit.php');
+admin_externalpage_setup('reportadv_configlog', '', ['configid' => $configid], '', ['pagelayout' => 'admin']);
 
 // Output.
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('adv_configlog', 'report_adv_configlog'));
+echo $OUTPUT->heading(get_string('editnotes', 'report_adv_configlog'));
 
-// Create out report instance, setting initial filtering if required.
-$report = system_report_factory::create(config_changes::class, context_system::instance());
-if (!empty($search)) {
-    $report->set_filter_values([
-            'config_change:setting_operator' => text::IS_EQUAL_TO,
-            'config_change:setting_value' => $search,
-    ]);
-}
-
-echo $report->output();
+echo $configid;
 
 echo $OUTPUT->footer();

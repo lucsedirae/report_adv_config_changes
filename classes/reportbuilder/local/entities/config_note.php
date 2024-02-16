@@ -85,7 +85,6 @@ class config_note extends base {
             $output .= format_text($notes, FORMAT_PLAIN);
             $output .= "</div > ";
             return $output;
-            //return format_text($notes, FORMAT_PLAIN);
         });
 
         $this->add_column($notescolumn);
