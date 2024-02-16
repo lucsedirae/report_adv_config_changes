@@ -115,8 +115,9 @@ class notes_form extends dynamic_form {
         $mform->setType('configid', PARAM_INT);
 
         $mform->addElement('textarea', 'notes', new lang_string('notes', 'report_adv_configlog'),
-                'wrap="virtual" rows="20" cols="50"');
+                'wrap="virtual" rows="5" cols="40"');
         $mform->setType('textarea', PARAM_TEXT);
+
+        $this->add_action_buttons();
     }
 }
-

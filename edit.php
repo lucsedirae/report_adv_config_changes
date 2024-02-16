@@ -24,21 +24,28 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use report_adv_configlog\form\notes_form;
+
 require(__DIR__ . '/../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
-global $PAGE, $OUTPUT;
+global $PAGE, $OUTPUT, $DB;
 
 $configid = optional_param('configid', '', PARAM_INT);
+$settingname = $DB->get_record('config_log', ['id' => $configid])->name;
 
 $parenturl = new moodle_url('/report/adv_configlog/index.php');
 $pageurl = new moodle_url('/report/adv_configlog/edit.php');
 admin_externalpage_setup('reportadv_configlog', '', ['configid' => $configid], '', ['pagelayout' => 'admin']);
 
+// Form construction.
+$notesform = new notes_form();
+
 // Output.
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('editnotes', 'report_adv_configlog'));
+echo $OUTPUT->heading(get_string('edit', 'report_adv_configlog', $settingname));
+echo "<hr/>";
 
-echo $configid;
+$notesform->display();
 
 echo $OUTPUT->footer();

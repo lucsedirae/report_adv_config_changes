@@ -28,6 +28,7 @@ $string['adv_configlog'] = 'Advanced config changes';
 $string['createnotes'] = 'Add config notes';
 $string['datefrom'] = 'Date from';
 $string['dateto'] = 'Date to';
+$string['edit'] = 'Editing note for {$a}';
 $string['editnotes'] = 'Edit config note';
 $string['entityconfigchange'] = 'Config change';
 $string['entityconfignote'] = 'Config note';
