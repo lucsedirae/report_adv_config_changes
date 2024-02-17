@@ -25,27 +25,50 @@
  */
 
 use report_adv_configlog\form\notes_form;
+use report_adv_configlog\local\data\confignote;
 
 require(__DIR__ . '/../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
 global $PAGE, $OUTPUT, $DB;
 
-$configid = optional_param('configid', '', PARAM_INT);
-$settingname = $DB->get_record('config_log', ['id' => $configid])->name;
-
+$configid = required_param('configid', PARAM_INT);
 $parenturl = new moodle_url('/report/adv_configlog/index.php');
+
 $pageurl = new moodle_url('/report/adv_configlog/edit.php');
 admin_externalpage_setup('reportadv_configlog', '', ['configid' => $configid], '', ['pagelayout' => 'admin']);
+$setting = $DB->get_record('config_log', ['id' => $configid])->name;
 
 // Form construction.
-$notesform = new notes_form();
+$notesform = new notes_form(new moodle_url('/report/adv_configlog/edit.php'), ['configid' => $configid]);
+$toform = new stdClass();
+$toform->configid = $configid;
 
-// Output.
-echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('edit', 'report_adv_configlog', $settingname));
-echo "<hr/>";
+if ($existingnote = $DB->get_field('advconfiglog', 'notes', ['configid' => $configid])) {
+    $toform->notes = $existingnote;
+}
 
-$notesform->display();
+$notesform->set_data($toform);
 
-echo $OUTPUT->footer();
+if ($notesform->is_cancelled()) {
+    redirect($parenturl);
+} else if ($fromform = $notesform->get_data()) {
+    $fromform = $notesform->get_data();
+
+    $data = new stdClass();
+    $data->configid = $configid;
+    $data->notes = $fromform->notes;
+
+    $confignote = new confignote(0, $data);
+    $confignote->create();
+
+    redirect($parenturl);
+} else {
+    echo $OUTPUT->header();
+    echo $OUTPUT->heading(get_string('edit', 'report_adv_configlog', $setting));
+    echo "<hr/>";
+
+    $notesform->display();
+
+    echo $OUTPUT->footer();
+}

@@ -27,78 +27,16 @@
 namespace report_adv_configlog\form;
 
 use lang_string;
-use report_adv_configlog\local\data\confignote;
+use moodleform;
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/formslib.php');
 
-use context;
-use context_system;
-use core_form\dynamic_form;
-use moodle_url;
-use report_adv_configlog\reportbuilder\local\entities\config_note;
-
 /**
  * Form class for limits.
  */
-class notes_form extends dynamic_form {
-    /**
-     * Retrieves context.
-     *
-     * @return context
-     * @throws \dml_exception
-     */
-    protected function get_context_for_dynamic_submission(): context {
-        return context_system::instance();
-    }
-
-    /**
-     * Performs capability check.
-     *
-     * @return void
-     * @throws \dml_exception
-     * @throws \required_capability_exception
-     */
-    protected function check_access_for_dynamic_submission(): void {
-        require_capability('moodle/site:config', context_system::instance());
-    }
-
-    /**
-     * Processes formdata for submission with dynamic form.
-     *
-     * @return array
-     */
-    public function process_dynamic_submission() {
-        $formdata = $this->get_data();
-
-        if (!empty($formdata->id)) {
-            $id = $formdata->id;
-        }
-
-        $confignote = new confignote($id, $formdata);
-        $confignote->save();
-
-        return [
-                'message' => 'notessavesuccess',
-                'messagetype' => 'success',
-        ];
-    }
-
-    /**
-     * Sets the data to the dynamic form from the JS passed args.
-     */
-    public function set_data_for_dynamic_submission(): void {
-        // TODO.
-    }
-
-    /**
-     * Gets the URL for the dynamic form submission.
-     */
-    protected function get_page_url_for_dynamic_submission(): moodle_url {
-        return new moodle_url('/report/adv_configlog/index.php');
-    }
-
+class notes_form extends moodleform {
     /**
      * Form definition.
      *
@@ -119,5 +57,9 @@ class notes_form extends dynamic_form {
         $mform->setType('textarea', PARAM_TEXT);
 
         $this->add_action_buttons();
+    }
+
+    function validation($data, $files) {
+        return [];
     }
 }
