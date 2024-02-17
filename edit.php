@@ -44,8 +44,8 @@ $notesform = new notes_form(new moodle_url('/report/adv_configlog/edit.php'), ['
 $toform = new stdClass();
 $toform->configid = $configid;
 
-if ($existingnote = $DB->get_field('advconfiglog', 'notes', ['configid' => $configid])) {
-    $toform->notes = $existingnote;
+if ($existingnote = $DB->get_record('advconfiglog', ['configid' => $configid])) {
+    $toform->notes = $existingnote->notes;
 }
 
 $notesform->set_data($toform);
@@ -58,9 +58,13 @@ if ($notesform->is_cancelled()) {
     $data = new stdClass();
     $data->configid = $configid;
     $data->notes = $fromform->notes;
-
     $confignote = new confignote(0, $data);
-    $confignote->create();
+    if (empty($existingnote)) {
+        $confignote->create();
+    } else {
+        $confignote->id = $existingnote->id;
+        $confignote->update();
+    }
 
     redirect($parenturl);
 } else {
