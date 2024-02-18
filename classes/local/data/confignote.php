@@ -16,10 +16,10 @@
 
 /**
  * Form class for managing config notes.
+ *
  * This plugin is a fork of the core report_configlog report.
  *
- * @package   report
- * @subplugin adv_configlog
+ * @package   report_adv_configlog
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,9 +28,20 @@ namespace report_adv_configlog\local\data;
 
 use lang_string;
 
+/**
+ * Config note peristent class.
+ */
 class confignote extends base {
+    /**
+     * Advanced config log plugin table.
+     */
     const TABLE = 'advconfiglog';
 
+    /**
+     * Define persistent properites.
+     *
+     * @return array[]
+     */
     protected static function define_properties() {
         return [
                 'configid' => [

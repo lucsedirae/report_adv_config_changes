@@ -16,10 +16,10 @@
 
 /**
  * Form class for managing config notes.
+ *
  * This plugin is a fork of the core report_configlog report.
  *
- * @package   report
- * @subplugin adv_configlog
+ * @package   report_adv_configlog
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -59,7 +59,14 @@ class notes_form extends moodleform {
         $this->add_action_buttons();
     }
 
-    function validation($data, $files) {
+    /**
+     * Validate form data.
+     *
+     * @param array $data
+     * @param array $files
+     * @return array
+     */
+    public function validation($data, $files) {
         return [];
     }
 }

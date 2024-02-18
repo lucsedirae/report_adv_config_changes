@@ -14,25 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Config note entity class implementation
+ *
+ * This plugin is a fork of the core report_configlog report.
+ *
+ * @package   report_adv_configlog
+ * @copyright 2023 Jon Deavers jondeavers@gmail.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace report_adv_configlog\reportbuilder\local\entities;
 
 use lang_string;
-use moodle_url;
 use core_reportbuilder\local\entities\base;
 use core_reportbuilder\local\report\column;
 use report_adv_configlog\local\data\notes;
 
+/**
+ * Configuration note entity class.
+ */
 class config_note extends base {
-
-    /**
-     * Config note entity class implementation
-     * This plugin is a fork of the core report_configlog report.
-     *
-     * @package   report
-     * @subplugin adv_configlog
-     * @copyright 2023 Jon Deavers jondeavers@gmail.com
-     * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
-     */
 
     /**
      * Database tables that this entity uses and their default aliases
@@ -61,7 +63,6 @@ class config_note extends base {
      */
     public function initialise(): base {
         $tablealias = $this->get_table_alias('advconfiglog');
-        $configtablealias = $this->get_table_alias('config_log');
 
         $notescolumn = new column(
                 'notes',
@@ -76,11 +77,6 @@ class config_note extends base {
         $notescolumn->set_type(column::TYPE_LONGTEXT);
         $notescolumn->set_is_sortable(true);
         $notescolumn->add_callback(static function(?string $notes, $row): string {
-            $id = $row->id;
-            $deleteurl = new moodle_url('/report/adv_configlog/index.php', [
-                    'action' => 'delete',
-            ]);
-
             $output = "<div class='adv_configlog_notes'>";
             $output .= format_text($notes, FORMAT_PLAIN);
             $output .= "</div > ";
