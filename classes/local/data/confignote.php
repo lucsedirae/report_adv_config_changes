@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for report_adv_configlog.
+ * Form class for managing config notes.
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,23 +24,34 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_adv_configlog\privacy;
+namespace report_adv_configlog\local\data;
+
+use lang_string;
 
 /**
- * Privacy Subsystem for report_adv_configlog implementing null_provider.
- *
- * @copyright  2018 Zig Tan <zig@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Config note peristent class.
  */
-class provider implements \core_privacy\local\metadata\null_provider {
+class confignote extends base {
+    /**
+     * Advanced config log plugin table.
+     */
+    const TABLE = 'advconfiglog';
 
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
+     * Define persistent properites.
      *
-     * @return  string
+     * @return array[]
      */
-    public static function get_reason() : string {
-        return 'privacy:metadata';
+    protected static function define_properties() {
+        return [
+                'configid' => [
+                        'type' => PARAM_INT,
+                        'null' => NULL_NOT_ALLOWED,
+                ],
+                'notes' => [
+                        'type' => PARAM_TEXT,
+                        'null' => NULL_NOT_ALLOWED,
+                ],
+        ];
     }
 }

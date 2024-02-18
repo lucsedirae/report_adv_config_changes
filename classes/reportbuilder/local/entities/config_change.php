@@ -14,6 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Config change entity class implementation
+ *
+ * This plugin is a fork of the core report_configlog report.
+ *
+ * @package   report_adv_configlog
+ * @copyright 2023 Jon Deavers jondeavers@gmail.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace report_adv_configlog\reportbuilder\local\entities;
 
 use lang_string;
@@ -25,16 +35,9 @@ use core_reportbuilder\local\filters\date;
 use core_reportbuilder\local\filters\text;
 
 /**
- * Config change entity class implementation
- * This plugin is a fork of the core report_configlog report.
- *
- * @package   report
- * @subplugin adv_configlog
- * @copyright 2023 Jon Deavers jondeavers@gmail.com
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Config change entity class.
  */
 class config_change extends base {
-
     /**
      * Database tables that this entity uses and their default aliases
      *
@@ -82,7 +85,6 @@ class config_change extends base {
      */
     protected function get_all_columns(): array {
         $tablealias = $this->get_table_alias('config_log');
-        $notestable = $this->get_table_alias('advconfiglog');
 
         // Time modified column.
         $columns[] = (new column(

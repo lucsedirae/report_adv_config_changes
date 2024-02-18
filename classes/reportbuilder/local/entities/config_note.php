@@ -14,24 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * Config note entity class implementation
+ *
+ * This plugin is a fork of the core report_configlog report.
+ *
+ * @package   report_adv_configlog
+ * @copyright 2023 Jon Deavers jondeavers@gmail.com
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 namespace report_adv_configlog\reportbuilder\local\entities;
 
 use lang_string;
 use core_reportbuilder\local\entities\base;
-use core_reportbuilder\local\helpers\format;
 use core_reportbuilder\local\report\column;
-use core_reportbuilder\local\report\filter;
-use core_reportbuilder\local\filters\date;
-use core_reportbuilder\local\filters\text;
+use report_adv_configlog\local\data\notes;
 
 /**
- * Config note entity class implementation
- * This plugin is a fork of the core report_configlog report.
- *
- * @package   report
- * @subplugin adv_configlog
- * @copyright 2023 Jon Deavers jondeavers@gmail.com
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Configuration note entity class.
  */
 class config_note extends base {
 
@@ -41,7 +42,9 @@ class config_note extends base {
      * @return array
      */
     protected function get_default_table_aliases(): array {
-        return ['advconfiglog' => 'acl'];
+        return ['advconfiglog' => 'acl',
+                'config_log' => 'cfgl',
+        ];
     }
 
     /**
@@ -66,10 +69,19 @@ class config_note extends base {
                 new lang_string('notes', 'report_adv_configlog'),
                 $this->get_entity_name()
         );
+
         $notescolumn->add_joins($this->get_joins());
-        $notescolumn->set_type(column::TYPE_LONGTEXT);
         $notescolumn->add_field("{$tablealias}.notes");
+        $notescolumn->add_field("{$tablealias}.id");
+        $notescolumn->add_field("{$tablealias}.configid");
+        $notescolumn->set_type(column::TYPE_LONGTEXT);
         $notescolumn->set_is_sortable(true);
+        $notescolumn->add_callback(static function(?string $notes, $row): string {
+            $output = "<div class='adv_configlog_notes'>";
+            $output .= format_text($notes, FORMAT_PLAIN);
+            $output .= "</div > ";
+            return $output;
+        });
 
         $this->add_column($notescolumn);
         return $this;

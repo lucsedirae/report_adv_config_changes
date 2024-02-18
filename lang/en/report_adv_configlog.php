@@ -15,18 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'report_adv_configlog', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'report_adv_configlog', language 'en', branch 'MOODLE_401_STABLE'
+ *
  * This plugin is a fork of the core report_configlog report.
  *
- * @package   report
- * @subplugin adv_configlog
+ * @package   report_adv_configlog
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['adv_configlog'] = 'Advanced config changes';
+$string['createnotes'] = 'Add config notes';
 $string['datefrom'] = 'Date from';
 $string['dateto'] = 'Date to';
+$string['edit'] = 'Editing note for {$a}';
+$string['editnotes'] = 'Edit config note';
 $string['entityconfigchange'] = 'Config change';
 $string['entityconfignote'] = 'Config note';
 $string['plugin'] = 'Plugin';
@@ -42,3 +45,4 @@ $string['valuenew'] = 'New value';
 $string['valueold'] = 'Original value';
 $string['privacy:metadata'] = 'The Advanced config changes plugin does not store any personal data.';
 $string['notes'] = 'Notes';
+$string['notesfield'] = 'Notes';

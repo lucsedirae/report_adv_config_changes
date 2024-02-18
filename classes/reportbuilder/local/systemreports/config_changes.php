@@ -17,6 +17,7 @@
 namespace report_adv_configlog\reportbuilder\local\systemreports;
 
 use context_system;
+use core_reportbuilder\local\report\action;
 use report_adv_configlog\reportbuilder\local\entities\config_change;
 use core_reportbuilder\system_report;
 use core_reportbuilder\local\entities\user;
@@ -25,10 +26,10 @@ use stdClass;
 
 /**
  * Config changes system report class implementation
+ *
  * This plugin is a fork of the core report_configlog report.
  *
- * @package   report
- * @subplugin adv_configlog
+ * @package   report_adv_configlog
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -61,6 +62,19 @@ class config_changes extends system_report {
         // Now we can call our helper methods to add the content we want to include in the report.
         $this->add_columns();
         $this->add_filters();
+
+        // Add actions for notes.
+        $this->add_base_fields("{$entitymainalias}.id");
+
+        $url = new \moodle_url('/report/adv_configlog/edit.php', ['configid' => ':id']);
+        $icon = new \pix_icon('t/edit', get_string('edit'));
+        $action = new action($url, $icon);
+        $this->add_action($action);
+
+        $url = new \moodle_url('/report/adv_configlog/index.php', ['configid' => ':id', 'delete' => 1]);
+        $icon = new \pix_icon('t/delete', get_string('delete'));
+        $action = new action($url, $icon);
+        $this->add_action($action);
 
         // Set if report can be downloaded.
         $this->set_downloadable(true, get_string('pluginname', 'report_adv_configlog'));

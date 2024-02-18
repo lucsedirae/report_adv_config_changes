@@ -16,10 +16,10 @@
 
 /**
  * This file contains mappings for classes that have been renamed so that they meet the requirements of the autoloader.
+ *
  * This plugin is a fork of the core report_configlog report.
  *
- * @package   report
- * @subplugin adv_configlog
+ * @package   report_adv_configlog
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
