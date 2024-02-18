@@ -27,19 +27,34 @@
 use core_reportbuilder\system_report_factory;
 use core_reportbuilder\local\filters\text;
 use report_adv_configlog\form\notes_form;
+use report_adv_configlog\local\data\confignote;
 use report_adv_configlog\reportbuilder\local\systemreports\config_changes;
 
 require(__DIR__ . '/../../config.php');
 require_once($CFG->libdir . '/adminlib.php');
 
-global $PAGE, $OUTPUT;
+global $PAGE, $OUTPUT, $DB;
 
 // Allow searching by setting when providing parameter directly.
 $search = optional_param('search', '', PARAM_TEXT);
 $configid = optional_param('configid', '', PARAM_INT);
+$delete = optional_param('delete', '', PARAM_INT);
 
 admin_externalpage_setup('reportadv_configlog', '', ['search' => $search], '', ['pagelayout' => 'report']);
 $pageurl = new moodle_url('/report/adv_configlog/index.php');
+
+// Delete note if config id and delete params received.
+if (!empty($delete)) {
+    $existingnote = $DB->get_record('advconfiglog', ['configid' => $configid]);
+
+    $data = new stdClass();
+    $data->configid = $configid;
+    $data->notes = $existingnote->notes;
+    $confignote = new confignote($existingnote->id, $data);
+    $confignote->delete();
+
+    redirect($pageurl, "Note deleted");
+}
 
 // Form construction.
 $mform = new notes_form($pageurl);

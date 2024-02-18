@@ -71,7 +71,7 @@ class config_changes extends system_report {
         $action = new action($url, $icon);
         $this->add_action($action);
 
-        $url = new \moodle_url('/report/adv_configlog/index.php');
+        $url = new \moodle_url('/report/adv_configlog/index.php', ['configid' => ':id', 'delete' => 1]);
         $icon = new \pix_icon('t/delete', get_string('delete'));
         $action = new action($url, $icon);
         $this->add_action($action);

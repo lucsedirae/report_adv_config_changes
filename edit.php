@@ -32,24 +32,27 @@ require_once($CFG->libdir . '/adminlib.php');
 
 global $PAGE, $OUTPUT, $DB;
 
+// Page setup.
 $configid = required_param('configid', PARAM_INT);
 $parenturl = new moodle_url('/report/adv_configlog/index.php');
-
 $pageurl = new moodle_url('/report/adv_configlog/edit.php');
-admin_externalpage_setup('reportadv_configlog', '', ['configid' => $configid], '', ['pagelayout' => 'admin']);
 $setting = $DB->get_record('config_log', ['id' => $configid])->name;
+
+admin_externalpage_setup('reportadv_configlog', '', ['configid' => $configid], '', ['pagelayout' => 'admin']);
 
 // Form construction.
 $notesform = new notes_form(new moodle_url('/report/adv_configlog/edit.php'), ['configid' => $configid]);
 $toform = new stdClass();
 $toform->configid = $configid;
 
+// Get existing note to update if it exists.
 if ($existingnote = $DB->get_record('advconfiglog', ['configid' => $configid])) {
     $toform->notes = $existingnote->notes;
 }
 
 $notesform->set_data($toform);
 
+// Form handling.
 if ($notesform->is_cancelled()) {
     redirect($parenturl);
 } else if ($fromform = $notesform->get_data()) {
@@ -68,6 +71,7 @@ if ($notesform->is_cancelled()) {
 
     redirect($parenturl);
 } else {
+    // Output.
     echo $OUTPUT->header();
     echo $OUTPUT->heading(get_string('edit', 'report_adv_configlog', $setting));
     echo "<hr/>";
