@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Event observer.
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,8 +24,15 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+namespace report_adv_configlog;
 
-$plugin->version   = 2023122601;         // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2022111800;         // Requires this Moodle version.
-$plugin->component = 'report_adv_configlog'; // Full name of the plugin (used for diagnostics).
+use moodle_url;
+
+class observer {
+    public static function observe_create_config_log($event) {
+        // Pass id of the event and use that to gather the mdl_logstore_standard_log: other field (json)
+
+        $url = new moodle_url('report/adv_configlog/index.php');
+        redirect($url);
+    }
+}
