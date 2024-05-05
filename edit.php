@@ -46,7 +46,8 @@ $toform = new stdClass();
 $toform->configid = $configid;
 
 // Get existing note to update if it exists.
-if ($existingnote = $DB->get_record('advconfiglog', ['configid' => $configid])) {
+
+if ($existingnote = confignote::get_record(['configid' => $configid])) {
     $toform->notes = $existingnote->notes;
 }
 

@@ -32,7 +32,11 @@ class observer {
     public static function observe_create_config_log($event) {
         // Pass id of the event and use that to gather the mdl_logstore_standard_log: other field (json)
 
-        $url = new moodle_url('report/adv_configlog/index.php');
+        $temp = $event->get_data();
+
+        $temp2 = $temp['other'];
+
+        $url = new moodle_url('../report/adv_configlog/edit.php', ['configid' => $event->objectid]);
         redirect($url);
     }
 }
