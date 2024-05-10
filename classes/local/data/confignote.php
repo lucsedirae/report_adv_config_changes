@@ -36,6 +36,8 @@ class confignote extends base {
      * Advanced config log plugin table.
      */
     const TABLE = 'advconfiglog';
+    const ADV_CONFIGLOG_LOGGED = 'logged';
+    const ADV_CONFIGLOG_SYNCED = 'synced';
 
     /**
      * Define persistent properites.
@@ -47,6 +49,14 @@ class confignote extends base {
                 'configid' => [
                         'type' => PARAM_INT,
                         'null' => NULL_NOT_ALLOWED,
+                ],
+                'status' => [
+                        'type' => PARAM_TEXT,
+                        'null' => NULL_NOT_ALLOWED,
+                        'choices' => [
+                                self::ADV_CONFIGLOG_LOGGED,
+                                self::ADV_CONFIGLOG_SYNCED,
+                        ],
                 ],
                 'notes' => [
                         'type' => PARAM_TEXT,

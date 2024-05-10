@@ -34,9 +34,19 @@ class observer {
 
         $temp = $event->get_data();
 
-        $temp2 = $temp['other'];
+        // See log file for captured event data
+        // Getting created in every
+        file_put_contents('/tmp/configlogs.log', json_encode($temp) . PHP_EOL, FILE_APPEND);
 
-        $url = new moodle_url('../report/adv_configlog/edit.php', ['configid' => $event->objectid]);
-        redirect($url);
+        // JS Module
+        // Upon saving settings form, store config change log from events
+        // Before footer hook to check if on settings page
+        // If settings page and changes load AMD and then modal to capture notes
+        // Create a status field for the note persistent and when this observers sees a change, mark
+        // the persistent record and pending.
+        // Then, when the page is confirmed to be an admin settings page, pop the modal and add fields
+        // for each persistent record that is marked as pending for a note to be added.
+
+        //
     }
 }

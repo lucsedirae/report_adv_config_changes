@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Upgrade
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,8 +24,29 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+/**
+ * Upgrade steps.
+ *
+ * @param int $oldversion
+ * @return true
+ * @throws ddl_exception
+ * @throws ddl_table_missing_exception
+ * @throws downgrade_exception
+ * @throws upgrade_exception
+ */
+function xmldb_report_adv_configlog_upgrade($oldversion): bool {
+    global $DB;
+    $dbman = $DB->get_manager();
 
-$plugin->version   = 2023122602;         // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2022111800;         // Requires this Moodle version.
-$plugin->component = 'report_adv_configlog'; // Full name of the plugin (used for diagnostics).
+    if ($oldversion < 2023122602) {
+        $table = new xmldb_table('advconfiglog');
+        $field = new xmldb_field('status', XMLDB_TYPE_CHAR);
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        upgrade_plugin_savepoint(true, 2023122602, 'report', 'advconfiglog');
+    }
+
+    return true;
+}
