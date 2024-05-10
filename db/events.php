@@ -24,9 +24,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 $observers = [
         [
                 'eventname' => '\core\event\config_log_created',
-                'callback' => '\report_adv_configlog\observer::observe_create_config_log'
-        ]
+                'callback' => '\report_adv_configlog\observer::observe_create_config_log',
+        ],
 ];

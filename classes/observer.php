@@ -28,25 +28,35 @@ namespace report_adv_configlog;
 
 use moodle_url;
 
+/**
+ * Observer class for when core config logs are created.
+ */
 class observer {
-    public static function observe_create_config_log($event) {
-        // Pass id of the event and use that to gather the mdl_logstore_standard_log: other field (json)
+    /**
+     * Observer.
+     *
+     * @param object $event
+     * @return void
+     */
+    public static function observe_create_config_log(object $event) {
+        // Pass id of the event and use that to gather the mdl_logstore_standard_log: other field (json).
 
         $temp = $event->get_data();
 
-        // See log file for captured event data
-        // Getting created in every
+        // See log file for captured event data.
+        // Getting created in every.
         file_put_contents('/tmp/configlogs.log', json_encode($temp) . PHP_EOL, FILE_APPEND);
 
-        // JS Module
-        // Upon saving settings form, store config change log from events
-        // Before footer hook to check if on settings page
-        // If settings page and changes load AMD and then modal to capture notes
-        // Create a status field for the note persistent and when this observers sees a change, mark
-        // the persistent record and pending.
-        // Then, when the page is confirmed to be an admin settings page, pop the modal and add fields
-        // for each persistent record that is marked as pending for a note to be added.
-
-        //
+        /**
+         * TODO:
+         * JS Module
+         * Upon saving settings form, store config change log from events
+         * Before footer hook to check if on settings page
+         * If settings page and changes load AMD and then modal to capture notes
+         * Create a status field for the note persistent and when this observers sees a change, mark
+         * the persistent record and pending.
+         * Then, when the page is confirmed to be an admin settings page, pop the modal and add fields
+         * for each persistent record that is marked as pending for a note to be added.
+         */
     }
 }

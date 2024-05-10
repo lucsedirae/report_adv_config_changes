@@ -36,7 +36,13 @@ class confignote extends base {
      * Advanced config log plugin table.
      */
     const TABLE = 'advconfiglog';
+    /**
+     * Logged.
+     */
     const ADV_CONFIGLOG_LOGGED = 'logged';
+    /**
+     * Synced.
+     */
     const ADV_CONFIGLOG_SYNCED = 'synced';
 
     /**
