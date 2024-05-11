@@ -46,7 +46,7 @@ $toform = new stdClass();
 $toform->configid = $configid;
 
 // Get existing note to update if it exists.
-if ($existingnote = $DB->get_record('advconfiglog', ['configid' => $configid])) {
+if ($existingnote = confignote::get_record(['configid' => $configid])) {
     $toform->notes = $existingnote->notes;
 }
 
@@ -61,7 +61,9 @@ if ($notesform->is_cancelled()) {
     $data = new stdClass();
     $data->configid = $configid;
     $data->notes = $fromform->notes;
+    $data->status = confignote::ADV_CONFIGLOG_SYNCED;
     $confignote = new confignote(0, $data);
+
     if (empty($existingnote)) {
         $confignote->create();
     } else {

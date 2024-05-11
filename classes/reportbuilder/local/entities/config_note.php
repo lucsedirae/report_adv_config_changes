@@ -76,7 +76,7 @@ class config_note extends base {
         $notescolumn->add_field("{$tablealias}.configid");
         $notescolumn->set_type(column::TYPE_LONGTEXT);
         $notescolumn->set_is_sortable(true);
-        $notescolumn->add_callback(static function(?string $notes, $row): string {
+        $notescolumn->add_callback(static function(?string $notes): string {
             $output = "<div class='adv_configlog_notes'>";
             $output .= format_text($notes, FORMAT_PLAIN);
             $output .= "</div > ";

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for report_adv_configlog.
+ * Upgrade
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,23 +24,29 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_adv_configlog\privacy;
-
 /**
- * Privacy Subsystem for report_adv_configlog implementing null_provider.
+ * Upgrade steps.
  *
- * @copyright  2018 Zig Tan <zig@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @param int $oldversion
+ * @return true
+ * @throws ddl_exception
+ * @throws ddl_table_missing_exception
+ * @throws downgrade_exception
+ * @throws upgrade_exception
  */
-class provider implements \core_privacy\local\metadata\null_provider {
+function xmldb_report_adv_configlog_upgrade($oldversion): bool {
+    global $DB;
+    $dbman = $DB->get_manager();
 
-    /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
-     *
-     * @return  string
-     */
-    public static function get_reason(): string {
-        return 'privacy:metadata';
+    if ($oldversion < 2023122602) {
+        $table = new xmldb_table('advconfiglog');
+        $field = new xmldb_field('status', XMLDB_TYPE_CHAR);
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        upgrade_plugin_savepoint(true, 2023122602, 'report', 'advconfiglog');
     }
+
+    return true;
 }
