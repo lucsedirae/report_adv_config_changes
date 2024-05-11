@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Event observer.
+ * Handles note data migration.
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,23 +24,42 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_adv_configlog;
+namespace report_adv_configlog\local;
 
-use report_adv_configlog\local\note_handler;
+use report_adv_configlog\local\data\confignote;
 
 /**
- * Observer class for when core config logs are created.
+ * Handler for notes persistent class.
  */
-class observer {
+class note_handler {
     /**
-     * Observer.
-     *
-     * @param object $event
-     * @return void
+     * @var array Note data.
      */
-    public static function observe_create_config_log(object $event) {
-        // Pass id of the event and use that to gather the mdl_logstore_standard_log: other field (json).
-        $handler = new note_handler($event->get_data());
-        $handler->run();
+    private array $data;
+
+    /**
+     * Constructor
+     *
+     * @param array $note
+     */
+    public function __construct(array $note) {
+        $this->data = $note;
+    }
+
+    /**
+     * Execute handler.
+     *
+     * @return void
+     * @throws \coding_exception
+     * @throws \core\invalid_persistent_exception
+     */
+    public function run() {
+        $persistent = new confignote(0);
+        $persistent->set('configid', $this->data['objectid']);
+        $persistent->set('status', confignote::ADV_CONFIGLOG_LOGGED);
+        $persistent->set('notes', '');
+
+        $persistent->create();
+
     }
 }

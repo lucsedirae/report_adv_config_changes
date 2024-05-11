@@ -66,7 +66,7 @@ class confignote extends base {
                 ],
                 'notes' => [
                         'type' => PARAM_TEXT,
-                        'null' => NULL_NOT_ALLOWED,
+                        'null' => NULL_ALLOWED,
                 ],
         ];
     }
