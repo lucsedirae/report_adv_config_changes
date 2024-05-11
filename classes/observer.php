@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for report_adv_configlog.
+ * Event observer.
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,23 +24,23 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_adv_configlog\privacy;
+namespace report_adv_configlog;
+
+use report_adv_configlog\local\note_handler;
 
 /**
- * Privacy Subsystem for report_adv_configlog implementing null_provider.
- *
- * @copyright  2018 Zig Tan <zig@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Observer class for when core config logs are created.
  */
-class provider implements \core_privacy\local\metadata\null_provider {
-
+class observer {
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
+     * Observer.
      *
-     * @return  string
+     * @param object $event
+     * @return void
      */
-    public static function get_reason(): string {
-        return 'privacy:metadata';
+    public static function observe_create_config_log(object $event) {
+        // Pass id of the event and use that to gather the mdl_logstore_standard_log: other field (json).
+        $handler = new note_handler($event->get_data());
+        $handler->run();
     }
 }

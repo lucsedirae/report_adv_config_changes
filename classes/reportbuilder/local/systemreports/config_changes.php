@@ -65,15 +65,22 @@ class config_changes extends system_report {
 
         // Add actions for notes.
         $this->add_base_fields("{$entitymainalias}.id");
+        $this->add_base_fields("{$notestablealias}.id AS noteid");
 
         $url = new \moodle_url('/report/adv_configlog/edit.php', ['configid' => ':id']);
         $icon = new \pix_icon('t/edit', get_string('edit'));
         $action = new action($url, $icon);
         $this->add_action($action);
 
-        $url = new \moodle_url('/report/adv_configlog/index.php', ['configid' => ':id', 'delete' => 1]);
+        $url = new \moodle_url('/report/adv_configlog/index.php', ['noteid' => ':noteid', 'delete' => 1]);
         $icon = new \pix_icon('t/delete', get_string('delete'));
         $action = new action($url, $icon);
+        $action->add_callback(function($row) {
+            if (empty($row->noteid)) {
+                return false;
+            }
+            return true;
+        });
         $this->add_action($action);
 
         // Set if report can be downloaded.

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for report_adv_configlog.
+ * Handles note data migration.
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,23 +24,42 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_adv_configlog\privacy;
+namespace report_adv_configlog\local;
+
+use report_adv_configlog\local\data\confignote;
 
 /**
- * Privacy Subsystem for report_adv_configlog implementing null_provider.
- *
- * @copyright  2018 Zig Tan <zig@moodle.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * Handler for notes persistent class.
  */
-class provider implements \core_privacy\local\metadata\null_provider {
+class note_handler {
+    /**
+     * @var array Note data.
+     */
+    private array $data;
 
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
+     * Constructor
      *
-     * @return  string
+     * @param array $note
      */
-    public static function get_reason(): string {
-        return 'privacy:metadata';
+    public function __construct(array $note) {
+        $this->data = $note;
+    }
+
+    /**
+     * Execute handler.
+     *
+     * @return void
+     * @throws \coding_exception
+     * @throws \core\invalid_persistent_exception
+     */
+    public function run() {
+        $persistent = new confignote(0);
+        $persistent->set('configid', $this->data['objectid']);
+        $persistent->set('status', confignote::ADV_CONFIGLOG_LOGGED);
+        $persistent->set('notes', '');
+
+        $persistent->create();
+
     }
 }

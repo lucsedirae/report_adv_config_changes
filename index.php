@@ -37,7 +37,7 @@ global $PAGE, $OUTPUT, $DB;
 
 // Allow searching by setting when providing parameter directly.
 $search = optional_param('search', '', PARAM_TEXT);
-$configid = optional_param('configid', '', PARAM_INT);
+$noteid = optional_param('noteid', '', PARAM_INT);
 $delete = optional_param('delete', '', PARAM_INT);
 
 admin_externalpage_setup('reportadv_configlog', '', ['search' => $search], '', ['pagelayout' => 'report']);
@@ -45,12 +45,7 @@ $pageurl = new moodle_url('/report/adv_configlog/index.php');
 
 // Delete note if config id and delete params received.
 if (!empty($delete)) {
-    $existingnote = $DB->get_record('advconfiglog', ['configid' => $configid]);
-
-    $data = new stdClass();
-    $data->configid = $configid;
-    $data->notes = $existingnote->notes;
-    $confignote = new confignote($existingnote->id, $data);
+    $confignote = new confignote($noteid);
     $confignote->delete();
 
     redirect($pageurl, "Note deleted");
