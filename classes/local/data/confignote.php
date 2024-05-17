@@ -50,7 +50,7 @@ class confignote extends base {
      *
      * @return array[]
      */
-    protected static function define_properties() {
+    protected static function define_properties(): array {
         return [
                 'configid' => [
                         'type' => PARAM_INT,

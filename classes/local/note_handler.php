@@ -33,9 +33,14 @@ use report_adv_configlog\local\data\confignote;
  */
 class note_handler {
     /**
-     * @var array Note data.
+     * @var int config log table id.
      */
-    private array $data;
+    private $objectid;
+
+    /**
+     * @var int config log table userid
+     */
+    private $userid;
 
     /**
      * Constructor
@@ -43,7 +48,8 @@ class note_handler {
      * @param array $note
      */
     public function __construct(array $note) {
-        $this->data = $note;
+        $this->objectid = $note['objectid'];
+        $this->userid = $note['userid'];
     }
 
     /**
@@ -54,12 +60,15 @@ class note_handler {
      * @throws \core\invalid_persistent_exception
      */
     public function run() {
-        $persistent = new confignote(0);
-        $persistent->set('configid', $this->data['objectid']);
-        $persistent->set('status', confignote::ADV_CONFIGLOG_LOGGED);
-        $persistent->set('notes', '');
+        global $PAGE;
 
-        $persistent->create();
+        if (($PAGE->pagelayout === 'admin') && ($this->userid == 0)) {
+            $persistent = new confignote(0);
+            $persistent->set('configid', $this->objectid);
+            $persistent->set('status', confignote::ADV_CONFIGLOG_LOGGED);
+            $persistent->set('notes', '');
 
+            $persistent->create();
+        }
     }
 }

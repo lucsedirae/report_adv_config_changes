@@ -39,7 +39,6 @@ class observer {
      * @return void
      */
     public static function observe_create_config_log(object $event) {
-        // Pass id of the event and use that to gather the mdl_logstore_standard_log: other field (json).
         $handler = new note_handler($event->get_data());
         $handler->run();
     }
