@@ -70,4 +70,14 @@ class confignote extends base {
                 ],
         ];
     }
+
+    /**
+     * Retrieves records by status.
+     *
+     * @param string $status
+     * @return array
+     */
+    public static function get_notes_by_status($status): array {
+        return self::get_records(['status' => $status]);
+    }
 }

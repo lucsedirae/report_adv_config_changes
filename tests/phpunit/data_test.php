@@ -109,7 +109,7 @@ class data_test extends \advanced_testcase {
             $persistent->create();
         }
 
-        $logged = confignote::get_logged_notes();
+        $logged = confignote::get_notes_by_status(confignote::ADV_CONFIGLOG_LOGGED);
 
         self::assertCount(10, $logged);
     }
