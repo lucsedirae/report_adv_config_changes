@@ -89,7 +89,39 @@ class data_test extends \advanced_testcase {
         self::assertEmpty($test);
     }
 
+    /**
+     * Tests get_logged_notes persistent method.
+     *
+     * @return void
+     * @throws \core\invalid_persistent_exception
+     * @throws coding_exception
+     */
+    public function test_get_logged_notes() {
+        $this->resetAfterTest();
+
+        for ($x = 0; $x < 9; $x++) {
+            $data = new stdClass();
+            $data->configid = 10000 . $x;
+            $data->status = confignote::ADV_CONFIGLOG_LOGGED;
+            $data->notes = 'Test note text:' . ' ' . $x ;
+
+            $persistent = new confignote(0, $data);
+            $persistent->create();
+        }
+
+        $logged = confignote::get_logged_notes();
+
+        self::assertCount(10, $logged);
+    }
+
     function setUp(): void {
+        global $DB;
+        // Clear notes created during install.
+        // As far as I can tell, this is test suite only and does not
+        // occur on install of site/plugin. Needs further testing to
+        // confirm.
+        $DB->delete_records(confignote::TABLE, ['status' => confignote::ADV_CONFIGLOG_LOGGED]);
+
         // Placeholder for setup script.
         $data = new stdClass();
         $data->configid = 12345;

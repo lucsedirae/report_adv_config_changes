@@ -41,7 +41,6 @@ class note_handler {
      * @var int config log table userid
      */
     private $userid;
-    private array $note;
 
     /**
      * Constructor
@@ -51,7 +50,6 @@ class note_handler {
     public function __construct(array $note) {
         $this->objectid = $note['objectid'];
         $this->userid = $note['userid'];
-        $this->note = $note;
     }
 
     /**
@@ -63,10 +61,6 @@ class note_handler {
      */
     public function run() {
         global $PAGE;
-
-        echo "NOTE" . PHP_EOL;
-        print_r($this->note);
-        echo PHP_EOL;
 
         if (($PAGE->pagelayout === 'admin') && ($this->userid == 0)) {
             $persistent = new confignote(0);
