@@ -13,37 +13,27 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+use report_adv_configlog\local\data\confignote;
 
 /**
- * Event observer.
+ * Install script.
  *
- * This plugin is a fork of the core report_configlog report.
  *
  * @package   report_adv_configlog
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace report_adv_configlog;
-
-use report_adv_configlog\local\note_handler;
-
 /**
- * Observer class for when core config logs are created.
+ * Install script.
+ *
+ * @return void
+ * @throws coding_exception
  */
-class observer {
-    /**
-     * Observer.
-     *
-     * @param object $event
-     * @return void
-     */
-    public static function observe_create_config_log(object $event) {
-        // Pass id of the event and use that to gather the mdl_logstore_standard_log: other field (json).
+function xmldb_report_adv_configlog_install() {
+    $logged = confignote::get_records(['status' => confignote::ADV_CONFIGLOG_LOGGED]);
 
-        //file_put_contents('/tmp/advconfiglog_debug2.json', json_encode($event) . PHP_EOL, FILE_APPEND);
-
-        $handler = new note_handler($event->get_data());
-        $handler->run();
+    foreach ($logged as $note) {
+        $note->delete();
     }
 }
