@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 use report_adv_configlog\local\data\confignote;
-use report_adv_configlog\local\note_handler;
 
 /**
  * Test suite for persistent data handler.
