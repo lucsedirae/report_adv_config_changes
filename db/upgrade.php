@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains mappings for classes that have been renamed so that they meet the requirements of the autoloader.
+ * Upgrade
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,12 +24,29 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * Upgrade steps.
+ *
+ * @param int $oldversion
+ * @return true
+ * @throws ddl_exception
+ * @throws ddl_table_missing_exception
+ * @throws downgrade_exception
+ * @throws upgrade_exception
+ */
+function xmldb_report_adv_configlog_upgrade($oldversion): bool {
+    global $DB;
+    $dbman = $DB->get_manager();
 
-$renamedclasses = [
-    // Since Moodle 4.1.
-    'report_adv_configlog\\local\\systemreports\\config_changes' =>
-        'report_adv_configlog\\reportbuilder\\local\\systemreports\\config_changes',
-    'report_adv_configlog\\local\\entities\\config_change' =>
-        'report_adv_configlog\\reportbuilder\\local\\entities\\config_change',
-];
+    if ($oldversion < 2023122602) {
+        $table = new xmldb_table('advconfiglog');
+        $field = new xmldb_field('status', XMLDB_TYPE_CHAR);
+
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        upgrade_plugin_savepoint(true, 2023122602, 'report', 'advconfiglog');
+    }
+
+    return true;
+}

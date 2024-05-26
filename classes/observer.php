@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains mappings for classes that have been renamed so that they meet the requirements of the autoloader.
+ * Event observer.
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,12 +24,22 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace report_adv_configlog;
 
-$renamedclasses = [
-    // Since Moodle 4.1.
-    'report_adv_configlog\\local\\systemreports\\config_changes' =>
-        'report_adv_configlog\\reportbuilder\\local\\systemreports\\config_changes',
-    'report_adv_configlog\\local\\entities\\config_change' =>
-        'report_adv_configlog\\reportbuilder\\local\\entities\\config_change',
-];
+use report_adv_configlog\local\note_handler;
+
+/**
+ * Observer class for when core config logs are created.
+ */
+class observer {
+    /**
+     * Observer.
+     *
+     * @param object $event
+     * @return void
+     */
+    public static function observe_create_config_log(object $event) {
+        $handler = new note_handler($event->get_data());
+        $handler->run();
+    }
+}

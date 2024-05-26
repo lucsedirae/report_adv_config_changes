@@ -16,17 +16,18 @@
 
 /**
  * Report settings
+ *
  * This plugin is a fork of the core report_configlog report.
  *
- * @package   report
- * @subplugin adv_configlog
+ * @package  report_adv_configlog
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-$ADMIN->add('reports', new admin_externalpage('reportadv_configlog', get_string('adv_configlog', 'report_adv_configlog'), "$CFG->wwwroot/report/adv_configlog/index.php"));
+$ADMIN->add('reports', new admin_externalpage('reportadv_configlog', get_string('adv_configlog', 'report_adv_configlog'),
+        "$CFG->wwwroot/report/adv_configlog/index.php"));
 
-// no report settings
+// No report settings.
 $settings = null;

@@ -16,17 +16,15 @@
 
 /**
  * Privacy Subsystem implementation for report_adv_configlog.
+ *
  * This plugin is a fork of the core report_configlog report.
  *
- * @package   report
- * @subplugin adv_configlog
+ * @package   report_adv_configlog
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 namespace report_adv_configlog\privacy;
-
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Privacy Subsystem for report_adv_configlog implementing null_provider.
@@ -42,7 +40,7 @@ class provider implements \core_privacy\local\metadata\null_provider {
      *
      * @return  string
      */
-    public static function get_reason() : string {
+    public static function get_reason(): string {
         return 'privacy:metadata';
     }
 }
