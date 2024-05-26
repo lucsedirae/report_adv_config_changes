@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+use report_adv_configlog\form\notes_form;
+use report_adv_configlog\local\data\confignote;
 
 /**
  * Form class for managing config notes.
@@ -24,8 +26,26 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/**
+ * Hook to add js form if logs are created.
+ *
+ * @return void
+ */
 function report_adv_configlog_before_footer() {
     global $PAGE;
+    if (is_siteadmin()) {
+        // Get persistents with status "logged".
+        $logged = confignote::get_records(['status' => confignote::ADV_CONFIGLOG_LOGGED]);
 
-    $PAGE->requires->js_call_amd('report_adv_configlog/config_listener', 'init');
+        if (!empty($logged)) {
+            // Call AMD.
+            $PAGE->requires->js_call_amd(
+                    'report_adv_configlog/config_listener',
+                    'init', [
+                            '[data-action=openform]',
+                            notes_form::class,
+                    ]
+            );
+        }
+    }
 }
