@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+use report_adv_configlog\form\listener_notes_form;
 use report_adv_configlog\form\notes_form;
 use report_adv_configlog\local\data\confignote;
 
@@ -42,8 +43,7 @@ function report_adv_configlog_before_footer() {
             $PAGE->requires->js_call_amd(
                     'report_adv_configlog/config_listener',
                     'init', [
-                            '[data-action=openform]',
-                            notes_form::class,
+                            listener_notes_form::class,
                     ]
             );
         }

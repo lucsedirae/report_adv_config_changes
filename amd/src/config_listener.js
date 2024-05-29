@@ -1,13 +1,14 @@
-import ModalFactory from 'core/modal_factory';
+import ModalForm from 'core_form/modalform';
 
-export const init = async() => {
-    const modal = await ModalFactory.create({
-        title: 'test title',
-        body: '<p>Example body content</p>',
-        footer: 'An example footer content',
+export const init = (formClass) => {
+    const modalForm = new ModalForm({
+        // Name of the class where form is defined (must extend \core_form\dynamic_form):
+        formClass: formClass,
+        // Pass any configuration settings to the modal dialogue, for example, the title:
+        modalConfig: {title: 'TEMP TITLE'},
+        // DOM element that should get the focus after the modal dialogue is closed:
+        returnFocus: document.body,
     });
-
-    modal.show();
-
-    // ...
+    modalForm.addEventListener(modalForm.events.FORM_SUBMITTED, (e) => window.console.log(e.detail));
+    modalForm.show();
 };

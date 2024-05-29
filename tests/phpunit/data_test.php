@@ -13,7 +13,6 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-use report_adv_configlog\local\data\confignote;
 
 /**
  * Test suite for persistent data handler.
@@ -22,10 +21,19 @@ use report_adv_configlog\local\data\confignote;
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace report_adv_configlog\phpunit;
+
+use report_adv_configlog\local\data\confignote;
+
+/**
+ * Tests for note data handler.
+ */
 class data_test extends \advanced_testcase {
     /**
      * Tests creation of confignote persistent.
      *
+     * @covers \report_adv_configlog\local\note_handler
      * @return void
      * @throws \core\invalid_persistent_exception
      * @throws coding_exception
@@ -50,6 +58,7 @@ class data_test extends \advanced_testcase {
     /**
      * Tests updating of confignote persistent.
      *
+     * @covers \report_adv_configlog\local\note_handler
      * @return void
      * @throws \core\invalid_persistent_exception
      * @throws coding_exception
@@ -70,6 +79,7 @@ class data_test extends \advanced_testcase {
     /**
      * Tests deletion of confignote persistent.
      *
+     * @covers \report_adv_configlog\local\note_handler
      * @return void
      * @throws coding_exception
      * @throws dml_exception
@@ -91,6 +101,7 @@ class data_test extends \advanced_testcase {
     /**
      * Tests get_logged_notes persistent method.
      *
+     * @covers \report_adv_configlog\local\note_handler
      * @return void
      * @throws \core\invalid_persistent_exception
      * @throws coding_exception
@@ -102,7 +113,7 @@ class data_test extends \advanced_testcase {
             $data = new stdClass();
             $data->configid = 10000 . $x;
             $data->status = confignote::ADV_CONFIGLOG_LOGGED;
-            $data->notes = 'Test note text:' . ' ' . $x ;
+            $data->notes = 'Test note text:' . ' ' . $x;
 
             $persistent = new confignote(0, $data);
             $persistent->create();
@@ -113,7 +124,15 @@ class data_test extends \advanced_testcase {
         self::assertCount(10, $logged);
     }
 
-    function setUp(): void {
+    /**
+     * Set up
+     *
+     * @return void
+     * @throws \core\invalid_persistent_exception
+     * @throws coding_exception
+     * @throws dml_exception
+     */
+    protected function setUp(): void {
         global $DB;
         // Clear notes created during install.
         // As far as I can tell, this is test suite only and does not

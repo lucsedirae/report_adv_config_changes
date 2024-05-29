@@ -71,7 +71,6 @@ class listener_notes_form extends dynamic_form {
 
     protected function get_page_url_for_dynamic_submission(): moodle_url {
         global $PAGE;
-
         return $PAGE->url;
     }
 
@@ -92,7 +91,5 @@ class listener_notes_form extends dynamic_form {
         $mform->addElement('textarea', 'notes', new lang_string('notes', 'report_adv_configlog'),
                 'wrap="virtual" rows="5" cols="40"');
         $mform->setType('textarea', PARAM_TEXT);
-
-        $this->add_action_buttons();
     }
 }
