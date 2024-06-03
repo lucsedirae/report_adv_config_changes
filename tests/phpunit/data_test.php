@@ -25,6 +25,7 @@
 namespace report_adv_configlog\phpunit;
 
 use report_adv_configlog\local\data\confignote;
+use stdClass;
 
 /**
  * Tests for note data handler.
@@ -140,7 +141,6 @@ class data_test extends \advanced_testcase {
         // confirm.
         $DB->delete_records(confignote::TABLE, ['status' => confignote::ADV_CONFIGLOG_LOGGED]);
 
-        // Placeholder for setup script.
         $data = new stdClass();
         $data->configid = 12345;
         $data->status = confignote::ADV_CONFIGLOG_LOGGED;

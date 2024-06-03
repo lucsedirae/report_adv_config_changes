@@ -35,6 +35,7 @@ use context_system;
 use core_form\dynamic_form;
 use lang_string;
 use moodle_url;
+use report_adv_configlog\local\data\confignote;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -54,6 +55,11 @@ class listener_notes_form extends dynamic_form {
         return context_system::instance();
     }
 
+    /**
+     * Process submission.
+     *
+     * @return array
+     */
     public function process_dynamic_submission() {
         $formdata = $this->get_data();
 
@@ -65,31 +71,57 @@ class listener_notes_form extends dynamic_form {
         ];
     }
 
+    /**
+     * Set data.
+     *
+     * @return void
+     */
     public function set_data_for_dynamic_submission(): void {
-        // TODO: Implement set_data_for_dynamic_submission() method.
+        // TODO: Get existing notes for this setting?
     }
 
+    /**
+     * Get url.
+     *
+     * @return moodle_url
+     */
     protected function get_page_url_for_dynamic_submission(): moodle_url {
         global $PAGE;
         return $PAGE->url;
     }
 
+    /**
+     * Check access.
+     *
+     * @return void
+     */
     protected function check_access_for_dynamic_submission(): void {
-        // TODO: Implement check_access_for_dynamic_submission() method.
+        // TODO: Check for is admin here...
     }
 
+    /**
+     * Definition.
+     *
+     * @return void
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
     protected function definition() {
+        global $DB;
         $mform = $this->_form;
 
-        // Hidden Id.
-        $mform->addElement('hidden', 'id');
-        $mform->setType('id', PARAM_INT);
+        $records = confignote::get_records(['status' => confignote::ADV_CONFIGLOG_LOGGED]);
+        foreach ($records as $record) {
+            $configid = $record->get('configid');
+            $configname = $DB->get_field('config_log', 'name', ['id' => $configid]);
 
-        $mform->addElement('hidden', 'configid');
-        $mform->setType('configid', PARAM_INT);
+            // TODO: Create a setting that allows this heading to be toggled on and off.
+            $mform->addElement('header', 'configname', $configname);
 
-        $mform->addElement('textarea', 'notes', new lang_string('notes', 'report_adv_configlog'),
-                'wrap="virtual" rows="5" cols="40"');
-        $mform->setType('textarea', PARAM_TEXT);
+            $label = new lang_string('notesfield', 'report_adv_configlog') . ' ' . $configname;
+            $mform->addElement('textarea', 'notes' . $configid, $label,
+                    'wrap="virtual" rows="5" cols="40"');
+            $mform->setType('textarea', PARAM_TEXT);
+        }
     }
 }

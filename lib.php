@@ -35,7 +35,7 @@ use report_adv_configlog\local\data\confignote;
 function report_adv_configlog_before_footer() {
     global $PAGE;
     if (is_siteadmin()) {
-        // Get persistents with status "logged".
+        // Get persistent records with status "logged".
         $logged = confignote::get_records(['status' => confignote::ADV_CONFIGLOG_LOGGED]);
 
         if (!empty($logged)) {
