@@ -26,8 +26,20 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$ADMIN->add('reports', new admin_externalpage('reportadv_configlog', get_string('adv_configlog', 'report_adv_configlog'),
+// External page setup.
+$ADMIN->add('reports', new admin_externalpage('report_adv_configlog', get_string('pluginname', 'report_adv_configlog'),
         "$CFG->wwwroot/report/adv_configlog/index.php"));
 
-// No report settings.
-$settings = null;
+if ($hassiteconfig) {
+    $ADMIN->add('reports', new admin_category('report_adv_configlog_settings', get_string('pluginname', 'report_adv_configlog')));
+    $settingspage = new admin_settingpage('managereportadvconfiglog', get_string('managereportsettings', 'report_adv_configlog'));
+
+    // Plugin settings.
+    $setting = new admin_setting_configcheckbox('report_adv_configlog/enablepopup',
+            new lang_string('enablepopup', 'report_adv_configlog'),
+            new lang_string('enablepopup_desc', 'report_adv_configlog'),
+            0);
+    $settingspage->add($setting);
+
+    $ADMIN->add('reports', $settingspage);
+}

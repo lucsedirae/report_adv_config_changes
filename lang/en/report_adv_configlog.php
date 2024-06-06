@@ -23,16 +23,18 @@
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['pluginname'] = 'Config changes';
+$string['pluginname'] = 'Advanced config changes';
 
-$string['adv_configlog'] = 'Advanced config changes';
 $string['createnotes'] = 'Add config notes';
 $string['datefrom'] = 'Date from';
 $string['dateto'] = 'Date to';
 $string['edit'] = 'Editing note for {$a}';
 $string['editnotes'] = 'Edit config note';
+$string['enablepopup'] = 'Enable pop-up form';
+$string['enablepopup_desc'] = 'Enables the pop up form that allows an admin to save config notes when changes are saved in a settings page';
 $string['entityconfigchange'] = 'Config change';
 $string['entityconfignote'] = 'Config note';
+$string['managereportsettings'] = 'Manage advanced config log settings';
 $string['notes'] = 'Notes';
 $string['notesfield'] = 'Enter notes for ';
 $string['plugin'] = 'Plugin';
