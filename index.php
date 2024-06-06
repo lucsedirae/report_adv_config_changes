@@ -40,7 +40,7 @@ $search = optional_param('search', '', PARAM_TEXT);
 $noteid = optional_param('noteid', '', PARAM_INT);
 $delete = optional_param('delete', '', PARAM_INT);
 
-admin_externalpage_setup('reportadv_configlog', '', ['search' => $search], '', ['pagelayout' => 'report']);
+admin_externalpage_setup('report_adv_configlog', '', ['search' => $search], '', ['pagelayout' => 'report']);
 $pageurl = new moodle_url('/report/adv_configlog/index.php');
 
 // Delete note if config id and delete params received.
@@ -56,7 +56,7 @@ $mform = new notes_form($pageurl);
 
 // Output.
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('adv_configlog', 'report_adv_configlog'));
+echo $OUTPUT->heading(get_string('pluginname', 'report_adv_configlog'));
 
 // Create out report instance, setting initial filtering if required.
 $report = system_report_factory::create(config_changes::class, context_system::instance());
