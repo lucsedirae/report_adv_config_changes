@@ -58,17 +58,22 @@ class listener_notes_form extends dynamic_form {
     /**
      * Process submission.
      *
-     * @return array
+     * @return void
+     * @throws \coding_exception
      */
     public function process_dynamic_submission() {
-        $formdata = $this->get_data();
+        $formdata = (array) $this->get_data();
 
-        return [
-                'message' => 'limitsavesuccess',
-                'messagetype' => 'success',
-            // TODO:Break up and adjust individual data in formdata.
-                'data' => $formdata,
-        ];
+        file_put_contents('/tmp/formdata.json', json_encode($formdata) . PHP_EOL, FILE_APPEND);
+
+        foreach ($formdata as $key => $value) {
+            $configid = (int) filter_var($key, FILTER_SANITIZE_NUMBER_INT);
+
+            $record = confignote::get_record(['configid' => $configid]);
+            $record->set('notes', $value);
+            $record->set('status', confignote::ADV_CONFIGLOG_SYNCED);
+            $record->update();
+        }
     }
 
     /**
@@ -77,7 +82,7 @@ class listener_notes_form extends dynamic_form {
      * @return void
      */
     public function set_data_for_dynamic_submission(): void {
-        // TODO: Get existing notes for this setting?
+
     }
 
     /**
