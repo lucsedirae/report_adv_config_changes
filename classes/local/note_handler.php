@@ -62,7 +62,7 @@ class note_handler {
     public function run() {
         global $PAGE;
 
-        if (($PAGE->pagelayout === 'admin') && ($this->userid == 0)) {
+        if (($PAGE->pagelayout === 'admin') && is_siteadmin()) {
             $persistent = new confignote(0);
             $persistent->set('configid', $this->objectid);
             $persistent->set('status', confignote::ADV_CONFIGLOG_LOGGED);

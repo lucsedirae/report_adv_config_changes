@@ -23,6 +23,7 @@
  * @copyright 2023 Jon Deavers jondeavers@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+$string['pluginname'] = 'Config changes';
 
 $string['adv_configlog'] = 'Advanced config changes';
 $string['createnotes'] = 'Add config notes';
@@ -32,8 +33,10 @@ $string['edit'] = 'Editing note for {$a}';
 $string['editnotes'] = 'Edit config note';
 $string['entityconfigchange'] = 'Config change';
 $string['entityconfignote'] = 'Config note';
+$string['notes'] = 'Notes';
+$string['notesfield'] = 'Enter notes for ';
 $string['plugin'] = 'Plugin';
-$string['pluginname'] = 'Config changes';
+$string['privacy:metadata'] = 'The Advanced config changes plugin does not store any personal data.';
 $string['setting'] = 'Setting';
 $string['timemodified'] = 'Date';
 $string['user'] = 'User';
@@ -43,6 +46,3 @@ $string['value'] = 'Value';
 $string['value_help'] = 'Search by new or original value of the configuration';
 $string['valuenew'] = 'New value';
 $string['valueold'] = 'Original value';
-$string['privacy:metadata'] = 'The Advanced config changes plugin does not store any personal data.';
-$string['notes'] = 'Notes';
-$string['notesfield'] = 'Notes';
