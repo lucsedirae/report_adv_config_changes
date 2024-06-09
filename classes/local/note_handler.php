@@ -61,8 +61,9 @@ class note_handler {
      */
     public function run() {
         global $PAGE;
+        $enabled = get_config('report_adv_configlog', 'enablepopup');
 
-        if (($PAGE->pagelayout === 'admin') && is_siteadmin()) {
+        if (($PAGE->pagelayout === 'admin') && is_siteadmin() && $enabled) {
             $persistent = new confignote(0);
             $persistent->set('configid', $this->objectid);
             $persistent->set('status', confignote::ADV_CONFIGLOG_LOGGED);
