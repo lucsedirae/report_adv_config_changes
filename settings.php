@@ -41,5 +41,17 @@ if ($hassiteconfig) {
             0);
     $settingspage->add($setting);
 
+    $setting = new admin_setting_configcheckbox('report_adv_configlog/truncatenotes',
+    new lang_string('truncatenotes', 'report_adv_configlog'),
+    new lang_string('truncatenotes_desc', 'report_adv_configlog'),
+    0);
+    $settingspage->add($setting);
+
+    $setting = new admin_setting_configtext('report_adv_configlog/trunatechars',
+    new lang_string('truncatechars', 'report_adv_configlog'),
+    new lang_string('truncatechars_desc', 'report_adv_configlog'),
+    30);
+    $settingspage->add($setting);
+
     $ADMIN->add('reports', $settingspage);
 }
