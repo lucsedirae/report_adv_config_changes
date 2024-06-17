@@ -26,10 +26,13 @@
 
 namespace report_adv_configlog\reportbuilder\local\entities;
 
+
 use lang_string;
 use core_reportbuilder\local\entities\base;
 use core_reportbuilder\local\report\column;
 use report_adv_configlog\local\data\notes;
+
+require_once($CFG->dirroot . '/report/adv_configlog/locallib.php');
 
 /**
  * Configuration note entity class.
@@ -43,7 +46,7 @@ class config_note extends base {
      */
     protected function get_default_table_aliases(): array {
         return ['advconfiglog' => 'acl',
-                'config_log' => 'cfgl',
+            'config_log' => 'cfgl',
         ];
     }
 
@@ -65,9 +68,9 @@ class config_note extends base {
         $tablealias = $this->get_table_alias('advconfiglog');
 
         $notescolumn = new column(
-                'notes',
-                new lang_string('notes', 'report_adv_configlog'),
-                $this->get_entity_name()
+            'notes',
+            new lang_string('notes', 'report_adv_configlog'),
+            $this->get_entity_name()
         );
 
         $notescolumn->add_joins($this->get_joins());
@@ -77,8 +80,11 @@ class config_note extends base {
         $notescolumn->set_type(column::TYPE_LONGTEXT);
         $notescolumn->set_is_sortable(true);
         $notescolumn->add_callback(static function(?string $notes): string {
+            $trimmedstring = report_adv_configlog_trim_string($notes) ?? '';
+
             $output = "<div class='adv_configlog_notes'>";
-            $output .= format_text($notes, FORMAT_PLAIN);
+            //$output .= format_text($trimmedstring, FORMAT_PLAIN);
+            $output .= report_adv_configlog_trim_string($notes);
             $output .= "</div > ";
             return $output;
         });

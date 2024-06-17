@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die;
 
 // External page setup.
 $ADMIN->add('reports', new admin_externalpage('report_adv_configlog', get_string('pluginname', 'report_adv_configlog'),
-        "$CFG->wwwroot/report/adv_configlog/index.php"));
+    "$CFG->wwwroot/report/adv_configlog/index.php"));
 
 if ($hassiteconfig) {
     $ADMIN->add('reports', new admin_category('report_adv_configlog_settings', get_string('pluginname', 'report_adv_configlog')));
@@ -36,21 +36,21 @@ if ($hassiteconfig) {
 
     // Plugin settings.
     $setting = new admin_setting_configcheckbox('report_adv_configlog/enablepopup',
-            new lang_string('enablepopup', 'report_adv_configlog'),
-            new lang_string('enablepopup_desc', 'report_adv_configlog'),
-            0);
+        new lang_string('enablepopup', 'report_adv_configlog'),
+        new lang_string('enablepopup_desc', 'report_adv_configlog'),
+        0);
     $settingspage->add($setting);
 
     $setting = new admin_setting_configcheckbox('report_adv_configlog/truncatenotes',
-    new lang_string('truncatenotes', 'report_adv_configlog'),
-    new lang_string('truncatenotes_desc', 'report_adv_configlog'),
-    0);
+        new lang_string('truncatenotes', 'report_adv_configlog'),
+        new lang_string('truncatenotes_desc', 'report_adv_configlog'),
+        0);
     $settingspage->add($setting);
 
     $setting = new admin_setting_configtext('report_adv_configlog/trunatechars',
-    new lang_string('truncatechars', 'report_adv_configlog'),
-    new lang_string('truncatechars_desc', 'report_adv_configlog'),
-    30);
+        new lang_string('truncatechars', 'report_adv_configlog'),
+        new lang_string('truncatechars_desc', 'report_adv_configlog'),
+        30);
     $settingspage->add($setting);
 
     $ADMIN->add('reports', $settingspage);

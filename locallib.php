@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Local functions.
  *
  * This plugin is a fork of the core report_configlog report.
  *
@@ -24,8 +24,23 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+/**
+ * Truncates a string if longer than the configured string truncation length.
+ *
+ * @param $string
+ * @return string
+ * @throws dml_exception
+ */
+function report_adv_configlog_trim_string($string): string {
+    if (empty($string)) {
+        $string = '';
+    }
 
-$plugin->version   = 2023122603;         // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2022111800;         // Requires this Moodle version.
-$plugin->component = 'report_adv_configlog'; // Full name of the plugin (used for diagnostics).
+    $length = get_config('report_adv_configlog', 'truncatechars');
+    $enabled = get_config('report_adv_configlog', 'truncatenotes');
+
+    if ($enabled == '1') {
+        $string = (mb_strlen($string) > $length) ? mb_substr($string, 0, $length) : $string;
+    }
+    return $string;
+}
